@@ -4,7 +4,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const ENTRY =
-  "I died doing what I loved: keeping your 6 a.m. alarm alive all night, then spending my last 1% to snooze it one final time.";
+  "I died doing what I loved: keeping your 6 a.m. alarm alive all night, then spending my last 1% to snooze it one final time. You're late.";
 
 const outDir = process.env.OUTPUT_DIR ?? "/output";
 const outPath = join(outDir, "entry.txt");
@@ -17,6 +17,12 @@ if (ENTRY.trim().length === 0) {
 }
 if (ENTRY.includes("\n")) {
   throw new Error("entry must be a single line");
+}
+if (ENTRY !== ENTRY.trim()) {
+  throw new Error("entry must not start or end with white space");
+}
+if (!/[.!?]$/.test(ENTRY)) {
+  throw new Error("entry must end with terminal punctuation so the punch lands");
 }
 
 mkdirSync(outDir, { recursive: true });
